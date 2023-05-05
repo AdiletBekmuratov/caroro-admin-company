@@ -1,57 +1,57 @@
-import { CompanyFormData } from "@/types/companies.types";
+import { Vehicle } from "@/components/Vehicles";
+import { VehiclesFormData } from "@/types/vehicles.types";
 import { baseApi } from "./baseApi";
 import { PaginatedResponse } from "@/types/pagination.types";
-import { Company } from "@/types/entity.types";
 
 // Define a service using a base URL and expected endpoints
-export const companiesApi = baseApi
-  .enhanceEndpoints({ addTagTypes: ["Company"] })
+export const vehiclesApi = baseApi
+  .enhanceEndpoints({ addTagTypes: ["Vehicles"] })
   .injectEndpoints({
     endpoints: (builder) => ({
-      getCompanies: builder.query<PaginatedResponse<Company>, void>({
-        query: () => `/companies?page=1&limit=999999999999999`,
+      getVehicles: builder.query<PaginatedResponse<Vehicle>, void>({
+        query: () => `/vehicles?page=1&limit=999999999999999`,
         providesTags: (result, error, arg) =>
           result
             ? // successful query
               [
                 ...result.data.map(
-                  ({ id }) => ({ type: "Company", id } as const)
+                  ({ id }) => ({ type: "Vehicles", id } as const)
                 ),
-                { type: "Company", id: "LIST" },
+                { type: "Vehicles", id: "LIST" },
               ]
             : // an error occurred, but we still want to refetch this query when `{ type: 'Company', id: 'LIST' }` is invalidated
-              [{ type: "Company", id: "LIST" }],
+              [{ type: "Vehicles", id: "LIST" }],
       }),
-      updateCompany: builder.mutation<
+      updateVehicle: builder.mutation<
         any,
-        { data: CompanyFormData; id: number }
+        { data: VehiclesFormData; id: number }
       >({
         query: ({ data, id }) => ({
-          url: `/companies/${id}`,
+          url: `/vehicles/${id}`,
           method: "PUT",
           body: data,
         }),
         invalidatesTags: (result, error, arg) => [
-          { type: "Company", id: arg.id },
+          { type: "Vehicles", id: arg.id },
         ],
       }),
-      createCompany: builder.mutation<any, CompanyFormData>({
+      createVehicle: builder.mutation<any, VehiclesFormData>({
         query: (body) => ({
-          url: `/companies`,
+          url: `/vehicles`,
           method: "POST",
           body: body,
         }),
-        invalidatesTags: [{ type: "Company", id: "LIST" }],
+        invalidatesTags: [{ type: "Vehicles", id: "LIST" }],
       }),
-      deleteCompany: builder.mutation<Company, number>({
+      deleteVehicle: builder.mutation<Vehicle, number>({
         query(id) {
           return {
-            url: `/companies/${id}`,
+            url: `/vehicles/${id}`,
             method: "DELETE",
           };
         },
         // Invalidates all queries that subscribe to this Post `id` only.
-        invalidatesTags: (result, error, id) => [{ type: "Company", id }],
+        invalidatesTags: (result, error, id) => [{ type: "Vehicles", id }],
       }),
     }),
   });
@@ -59,8 +59,8 @@ export const companiesApi = baseApi
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const {
-  useGetCompaniesQuery,
-  useUpdateCompanyMutation,
-  useCreateCompanyMutation,
-  useDeleteCompanyMutation,
-} = companiesApi;
+  useGetVehiclesQuery,
+  useUpdateVehicleMutation,
+  useCreateVehicleMutation,
+  useDeleteVehicleMutation,
+} = vehiclesApi;

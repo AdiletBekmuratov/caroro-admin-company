@@ -7,7 +7,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CommuteIcon from "@mui/icons-material/Commute";
 import FactoryIcon from "@mui/icons-material/Factory";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import NewspaperIcon from '@mui/icons-material/Newspaper';
+import NewspaperIcon from "@mui/icons-material/Newspaper";
 import GroupIcon from "@mui/icons-material/Group";
 import EmojiTransportationIcon from "@mui/icons-material/EmojiTransportation";
 import { Button, IconButton } from "@mui/material";
@@ -50,77 +50,14 @@ const NavSide: FC<{ children: ReactNode }> = ({ children }) => {
               </li>
               <li>
                 <NavLink
-                  to="/companies"
+                  to="/vehicles"
                   className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   <EmojiTransportationIcon className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
 
                   <span className="flex-1 ml-3 whitespace-nowrap">
-                    Companies
+                    Vehicles
                   </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/category"
-                  className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <CategoryIcon className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-
-                  <span className="flex-1 ml-3 whitespace-nowrap">
-                    Category
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/users"
-                  className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <GroupIcon className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-
-                  <span className="flex-1 ml-3 whitespace-nowrap">Users</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/make"
-                  className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <FactoryIcon className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-
-                  <span className="flex-1 ml-3 whitespace-nowrap">Make</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/gearBox"
-                  className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <CarCrashIcon className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-                  <span className="flex-1 ml-3 whitespace-nowrap">GearBox</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/vehicleType"
-                  className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <CommuteIcon className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-
-                  <span className="flex-1 ml-3 whitespace-nowrap">
-                    VehicleType
-                  </span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/blog"
-                  className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <NewspaperIcon className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-
-                  <span className="flex-1 ml-3 whitespace-nowrap">Blog</span>
                 </NavLink>
               </li>
             </ul>

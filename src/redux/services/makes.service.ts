@@ -1,4 +1,4 @@
-import { Make } from "@/components/Make";
+import { Make } from "@/types/entity.types";
 import { baseApi } from "./baseApi";
 import { PaginatedResponse } from "@/types/pagination.types";
 

@@ -1,4 +1,4 @@
-import { GearBox } from "@/components/GearBox";
+import { GearBox } from "@/types/entity.types";
 import { baseApi } from "./baseApi";
 import { GearBoxFormData } from "@/types/gearboxes.types";
 

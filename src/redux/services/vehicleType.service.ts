@@ -1,8 +1,6 @@
-import { GearBox } from "@/components/GearBox";
+import { VehicleType } from "@/types/entity.types";
 import { baseApi } from "./baseApi";
-import { GearBoxFormData } from "@/types/gearboxes.types";
 import { VehicleTypeFormData } from "@/types/vehicleType.types";
-import { VehicleType } from "@/components/VehicleType";
 
 // Define a service using a base URL and expected endpoints
 export const vehicleTypesApi = baseApi
@@ -15,7 +13,9 @@ export const vehicleTypesApi = baseApi
           result
             ? // successful query
               [
-                ...result.map(({ id }) => ({ type: "VehicleType", id } as const)),
+                ...result.map(
+                  ({ id }) => ({ type: "VehicleType", id } as const)
+                ),
                 { type: "VehicleType", id: "LIST" },
               ]
             : // an error occurred, but we still want to refetch this query when `{ type: 'VehicleType', id: 'LIST' }` is invalidated
@@ -58,8 +58,8 @@ export const vehicleTypesApi = baseApi
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const {
-    useGetVehicleTypeQuery,
-    useCreateVehicleTypeMutation,
-    useDeleteVehicleTypeMutation,
-    useUpdateVehicleTypeMutation,
+  useGetVehicleTypeQuery,
+  useCreateVehicleTypeMutation,
+  useDeleteVehicleTypeMutation,
+  useUpdateVehicleTypeMutation,
 } = vehicleTypesApi;

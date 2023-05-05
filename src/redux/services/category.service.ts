@@ -1,4 +1,4 @@
-import { Category } from "@/components/Category";
+import { Category } from "@/types/entity.types";
 import { baseApi } from "./baseApi";
 import { CategoryFormData } from "@/types/category.types";
 
