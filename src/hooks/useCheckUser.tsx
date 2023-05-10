@@ -8,7 +8,7 @@ export const useCheckUser = () => {
 
   useEffect(() => {
     if (!!user && !isLoading) {
-      if (user.role !== "admin") {
+      if (user.role !== "company") {
         dispatch(logout());
       }
     }

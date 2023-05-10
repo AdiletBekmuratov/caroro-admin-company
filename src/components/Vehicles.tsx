@@ -5,38 +5,23 @@ import {
   useUpdateVehicleMutation,
 } from "@/redux/services/vehicles.service";
 import {
-  Category,
   Company,
   Engine,
   GearBox,
   Make,
   VehicleType,
 } from "@/types/entity.types";
-import { VehiclesFormData, VehicleSchema } from "@/types/vehicles.types";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { VehiclesFormData } from "@/types/vehicles.types";
 import { Delete, Edit } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControlLabel,
-  IconButton,
-  Stack,
-  Switch,
-  TextField,
-  Tooltip,
-} from "@mui/material";
+import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import MaterialReactTable, {
   MRT_Cell,
   MRT_ColumnDef,
   MRT_Row,
-  MaterialReactTableProps,
 } from "material-react-table";
 import { useCallback, useMemo, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import CreateVehicleModal from "./Vehicles/CreateVehicleModal";
+import UpdateVehicleModal from "./Vehicles/UpdateVehicleModal";
 
 export type OtherInfo = {
   description: string;
@@ -58,7 +43,6 @@ export type Vehicle = {
   lat: number;
   price: number;
   year: number;
-  otherInfo: OtherInfo[];
   description: string;
   images: { link: string }[];
   vehicleType: VehicleType;
@@ -73,13 +57,18 @@ export type Vehicle = {
 
 const Vehicles = () => {
   const { data } = useGetVehiclesQuery();
+
   const [deleteMutation] = useDeleteVehicleMutation();
   const [createMutation] = useCreateVehicleMutation();
   const [updateMutation] = useUpdateVehicleMutation();
   const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
+
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
+
+  const [row, setRow] = useState<Vehicle>();
 
   const handleCreateNewRow = (values: VehiclesFormData) => {
     // tableData.push(values);
@@ -87,19 +76,10 @@ const Vehicles = () => {
     createMutation(values);
   };
 
-  const handleSaveRowEdits: MaterialReactTableProps<Vehicle>["onEditingRowSave"] =
-    async ({ exitEditingMode, row, values }) => {
-      if (!Object.keys(validationErrors).length) {
-        // tableData[row.index] = values;
-        // //send/receive api updates here, then refetch or update local table data for re-render
-        // setTableData([...tableData]);
-        updateMutation({ id: row.getValue("id"), data: values });
-        exitEditingMode(); //required to exit editing mode and close modal
-      }
-    };
-
-  const handleCancelRowEdits = () => {
-    setValidationErrors({});
+  const handleSaveRowEdits = async (
+    values: { id: number } & VehiclesFormData
+  ) => {
+    updateMutation({ id: values.id, data: values });
   };
 
   const handleDeleteRow = useCallback(
@@ -157,145 +137,97 @@ const Vehicles = () => {
         accessorKey: "company.name",
         header: "Company",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
       {
         accessorKey: "vin",
         header: "VIN",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
       {
         accessorKey: "make.name",
         header: "Make",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
       {
         accessorKey: "model",
         header: "Model",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
       {
         accessorKey: "plateNumber",
         header: "PlateNumber",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
       {
         accessorKey: "available",
         header: "Available",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
+
+        Cell: ({ cell: { getValue } }) => getValue<boolean>().toString(),
       },
       {
         accessorKey: "enabled",
         header: "Enabled",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
+
+        Cell: ({ cell: { getValue } }) => getValue<boolean>().toString(),
       },
       {
         accessorKey: "lon",
         header: "Lon",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
       {
         accessorKey: "lat",
         header: "Lat",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
       {
         accessorKey: "price",
         header: "Price",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
       {
         accessorKey: "year",
         header: "Year",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
-      {
-        accessorKey: "otherInfo",
-        header: "Other info",
-        size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-        Cell: ({ cell }) => (
-          <div>
-            {cell.getValue<OtherInfo[]>().map((item) => (
-              <p>{`${item.label}: ${item.description}`}</p>
-            ))}
-          </div>
-        ),
-      },
+
       {
         accessorKey: "description",
         header: "Description",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
 
       {
         accessorKey: "images",
         header: "Images",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
+
+        Cell: ({ cell: { getValue } }) => (
+          <div className="flex flex-col gap-2">
+            {getValue<any[]>().map((item) => (
+              <a href={item.link} className="text-blue-500" target="_blank">
+                {item.link}
+              </a>
+            ))}
+          </div>
+        ),
       },
       {
         accessorKey: "vehicleType.name",
         header: "VehicleType",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
       {
         accessorKey: "gearbox.name",
         header: "Gearbox",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
       {
         accessorKey: "engine.name",
         header: "Engine",
         size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
       },
       {
         accessorKey: "createdAt",
@@ -328,13 +260,16 @@ const Vehicles = () => {
         data={data?.data ?? []}
         editingMode="modal" //default
         enableColumnOrdering
-        enableEditing
-        onEditingRowSave={handleSaveRowEdits}
-        onEditingRowCancel={handleCancelRowEdits}
+        enableRowActions
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: "flex", gap: "1rem" }}>
             <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
+              <IconButton
+                onClick={() => {
+                  setRow(row.original);
+                  setUpdateModalOpen(true);
+                }}
+              >
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -355,247 +290,20 @@ const Vehicles = () => {
           </Button>
         )}
       />
-      <CreateNewAccountModal
+      <CreateVehicleModal
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
         onSubmit={handleCreateNewRow}
       />
+      {row && (
+        <UpdateVehicleModal
+          open={updateModalOpen}
+          onSubmit={handleSaveRowEdits}
+          data={row!}
+          onClose={() => setUpdateModalOpen(false)}
+        />
+      )}
     </>
-  );
-};
-
-interface CreateModalProps {
-  onClose: () => void;
-  onSubmit: (values: VehiclesFormData) => void;
-  open: boolean;
-}
-
-//example of creating a mui dialog modal for creating new rows
-export const CreateNewAccountModal = ({
-  open,
-  onClose,
-  onSubmit,
-}: CreateModalProps) => {
-  const {
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm<VehiclesFormData>({
-    mode: "onTouched",
-    resolver: zodResolver(VehicleSchema),
-    defaultValues: {
-      vin: "",
-      makeId: 0,
-      model: "",
-      plateNumber: 0,
-      available: false,
-      lon: 0,
-      lat: 0,
-      price: 0,
-      year: 0,
-      description: "",
-      vehicleTypeId: 0,
-      gearboxId: 0,
-      engineId: 0,
-    },
-  });
-
-  const handleFormSubmit = handleSubmit((values) => {
-    //put your validation logic here
-    onSubmit(values);
-    reset();
-    onClose();
-  });
-
-  return (
-    <Dialog open={open}>
-      <DialogTitle textAlign="center">Create New Vehicles</DialogTitle>
-      <DialogContent>
-        <Box component="form" onSubmit={handleFormSubmit} noValidate>
-          <Stack
-            sx={{
-              width: "100%",
-              minWidth: { xs: "300px", sm: "360px", md: "400px" },
-              gap: "1.5rem",
-            }}
-          >
-            <Controller
-              name="vin"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  fullWidth
-                  label="VIN"
-                  error={!!errors.vin}
-                  helperText={errors.vin?.message}
-                />
-              )}
-            />
-            <Controller
-              name="makeId"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  fullWidth
-                  label="makeId"
-                  error={!!errors.makeId}
-                  helperText={errors.makeId?.message}
-                />
-              )}
-            />
-            <Controller
-              name="model"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  fullWidth
-                  label="model"
-                  error={!!errors.model}
-                  helperText={errors.model?.message}
-                />
-              )}
-            />
-            <Controller
-              name="plateNumber"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  fullWidth
-                  label="plateNumber"
-                  error={!!errors.plateNumber}
-                  helperText={errors.plateNumber?.message}
-                />
-              )}
-            />
-            <Controller
-              name="available"
-              control={control}
-              render={({ field }) => (
-                <FormControlLabel
-                  label="Available"
-                  control={<Switch {...field} />}
-                />
-              )}
-            />
-
-            <Controller
-              name="lon"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  fullWidth
-                  label="lon"
-                  error={!!errors.lon}
-                  helperText={errors.lon?.message}
-                />
-              )}
-            />
-            <Controller
-              name="lat"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  fullWidth
-                  label="lat"
-                  error={!!errors.lat}
-                  helperText={errors.lat?.message}
-                />
-              )}
-            />
-            <Controller
-              name="price"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  fullWidth
-                  label="price"
-                  error={!!errors.price}
-                  helperText={errors.price?.message}
-                />
-              )}
-            />
-            <Controller
-              name="year"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  fullWidth
-                  label="year"
-                  error={!!errors.year}
-                  helperText={errors.year?.message}
-                />
-              )}
-            />
-
-            <Controller
-              name="description"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  fullWidth
-                  label="Описание"
-                  error={!!errors.description}
-                  helperText={errors.description?.message}
-                />
-              )}
-            />
-            <Controller
-              name="gearboxId"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  fullWidth
-                  label="gearboxId"
-                  error={!!errors.gearboxId}
-                  helperText={errors.gearboxId?.message}
-                />
-              )}
-            />
-            <Controller
-              name="engineId"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  fullWidth
-                  label="engineId"
-                  error={!!errors.engineId}
-                  helperText={errors.engineId?.message}
-                />
-              )}
-            />
-          </Stack>
-          <DialogActions sx={{ p: "1.25rem" }}>
-            <Button onClick={onClose}>Cancel</Button>
-            <Button color="secondary" variant="contained" type="submit">
-              Create New Vehicles
-            </Button>
-          </DialogActions>
-        </Box>
-      </DialogContent>
-    </Dialog>
   );
 };
 
