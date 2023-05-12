@@ -6,6 +6,7 @@ import SignIn from "./components/SignIn";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { getMe } from "./redux/slices/auth";
 import Vehicles from "./components/Vehicles";
+import Orders from "./components/Orders";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -24,7 +25,8 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/vehicles" element={<Vehicles />} />
-            <Route path="*" element={<Navigate to={"/companies"} replace />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="*" element={<Navigate to={"/vehicles"} replace />} />
           </Routes>
         </Layout>
       ) : (

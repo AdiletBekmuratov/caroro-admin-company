@@ -9,7 +9,6 @@ export interface IAuthState {
 export interface IUser {
   id: number;
   email: string;
-  username: string;
   role: Role;
   enabled: boolean;
   createdAt?: string;

@@ -1,15 +1,9 @@
 import { useAppDispatch } from "@/redux/hooks";
 import { logout } from "@/redux/slices/auth";
-import AccessibilityIcon from "@mui/icons-material/Accessibility";
-import CategoryIcon from "@mui/icons-material/Category";
-import CarCrashIcon from "@mui/icons-material/CarCrash";
-import MenuIcon from "@mui/icons-material/Menu";
-import CommuteIcon from "@mui/icons-material/Commute";
-import FactoryIcon from "@mui/icons-material/Factory";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import NewspaperIcon from "@mui/icons-material/Newspaper";
-import GroupIcon from "@mui/icons-material/Group";
 import EmojiTransportationIcon from "@mui/icons-material/EmojiTransportation";
+import TocIcon from "@mui/icons-material/Toc";
+import MenuIcon from "@mui/icons-material/Menu";
 import { Button, IconButton } from "@mui/material";
 import { FC, ReactNode, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -58,6 +52,14 @@ const NavSide: FC<{ children: ReactNode }> = ({ children }) => {
                   <span className="flex-1 ml-3 whitespace-nowrap">
                     Vehicles
                   </span>
+                </NavLink>
+                <NavLink
+                  to="/orders"
+                  className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  <TocIcon className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+
+                  <span className="flex-1 ml-3 whitespace-nowrap">Orders</span>
                 </NavLink>
               </li>
             </ul>
