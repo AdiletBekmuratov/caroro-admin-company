@@ -1,2 +1,2 @@
-export const API_URL = 'http://localhost:3333/api';
-export const WS_URL = '';
+export const API_URL = import.meta.env.VITE_APP_API_URL;
+export const WS_URL = "";
