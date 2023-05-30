@@ -10,6 +10,7 @@ export interface IUser {
   id: number;
   email: string;
   role: Role;
+  companyId: number;
   enabled: boolean;
   createdAt?: string;
   updatedAt?: string;

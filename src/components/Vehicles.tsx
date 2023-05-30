@@ -22,6 +22,7 @@ import MaterialReactTable, {
 import { useCallback, useMemo, useState } from "react";
 import CreateVehicleModal from "./Vehicles/CreateVehicleModal";
 import UpdateVehicleModal from "./Vehicles/UpdateVehicleModal";
+import { useAppSelector } from "@/redux/hooks";
 
 export type OtherInfo = {
   description: string;
@@ -56,7 +57,8 @@ export type Vehicle = {
 };
 
 const Vehicles = () => {
-  const { data } = useGetVehiclesQuery();
+  const { user } = useAppSelector((state) => state.auth);
+  const { data } = useGetVehiclesQuery(user!.companyId, { skip: !user });
 
   const [deleteMutation] = useDeleteVehicleMutation();
   const [createMutation] = useCreateVehicleMutation();

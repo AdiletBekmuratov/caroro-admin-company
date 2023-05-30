@@ -8,8 +8,9 @@ export const vehiclesApi = baseApi
   .enhanceEndpoints({ addTagTypes: ["Vehicles"] })
   .injectEndpoints({
     endpoints: (builder) => ({
-      getVehicles: builder.query<PaginatedResponse<Vehicle>, void>({
-        query: () => `/vehicles?page=1&limit=9999999999`,
+      getVehicles: builder.query<PaginatedResponse<Vehicle>, number>({
+        query: (companyId) =>
+          `/vehicles?page=1&limit=9999999999&filter.companyId=$eq:${companyId}`,
         providesTags: (result, error, arg) =>
           result
             ? // successful query
