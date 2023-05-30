@@ -9,7 +9,7 @@ export type OrderStatus = "pending" | "inprogress" | "completed" | "cancelled";
 
 export type Order = {
   id: number;
-  orderStatus: OrderStatus;
+  status: OrderStatus;
   finalPrice: number;
   user: IUser;
   userId: number;
@@ -23,7 +23,6 @@ export type Order = {
 
 const Orders = () => {
   const { data = [] } = useGetOrdersQuery();
-  console.log(data);
 
   const columns = useMemo<MRT_ColumnDef<Order>[]>(
     () => [
@@ -36,13 +35,8 @@ const Orders = () => {
         size: 80,
       },
       {
-        accessorKey: "orderStatus",
+        accessorKey: "status",
         header: "Order Status",
-        size: 140,
-      },
-      {
-        accessorKey: "company.name",
-        header: "Company",
         size: 140,
       },
       {
@@ -89,7 +83,7 @@ const Orders = () => {
         }}
         columns={columns}
         data={data}
-        editingMode="modal" //default
+        editingMode="modal"
         enableColumnOrdering
       />
     </>

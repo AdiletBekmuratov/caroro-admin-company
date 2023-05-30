@@ -86,7 +86,7 @@ const CreateVehicleModal = ({ open, onClose, onSubmit }: CreateModalProps) => {
 
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Create New Vehicles</DialogTitle>
+      <DialogTitle textAlign="center">Create New Vehicle</DialogTitle>
       <DialogContent>
         <Box component="form" onSubmit={handleFormSubmit} noValidate>
           <Stack
@@ -333,7 +333,7 @@ const CreateVehicleModal = ({ open, onClose, onSubmit }: CreateModalProps) => {
           <DialogActions sx={{ p: "1.25rem" }}>
             <Button onClick={onClose}>Cancel</Button>
             <Button color="secondary" variant="contained" type="submit">
-              Update Vehicle
+              Submit
             </Button>
           </DialogActions>
         </Box>

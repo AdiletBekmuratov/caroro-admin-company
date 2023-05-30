@@ -197,6 +197,9 @@ const Vehicles = () => {
         accessorKey: "description",
         header: "Description",
         size: 140,
+
+        Cell: ({ cell: { getValue } }) =>
+          getValue<string>().slice(0, 100) + "...",
       },
 
       {

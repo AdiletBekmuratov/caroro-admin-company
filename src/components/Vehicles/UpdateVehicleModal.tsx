@@ -77,7 +77,7 @@ const UpdateVehicleModal = ({
 
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Create New Vehicles</DialogTitle>
+      <DialogTitle textAlign="center">Update Vehicle</DialogTitle>
       <DialogContent>
         <Box component="form" onSubmit={handleFormSubmit} noValidate>
           <Stack
@@ -311,7 +311,7 @@ const UpdateVehicleModal = ({
           <DialogActions sx={{ p: "1.25rem" }}>
             <Button onClick={onClose}>Cancel</Button>
             <Button color="secondary" variant="contained" type="submit">
-              Create New Vehicles
+              Update Vehicle
             </Button>
           </DialogActions>
         </Box>
