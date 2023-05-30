@@ -9,7 +9,7 @@ export const companiesApi = baseApi
   .injectEndpoints({
     endpoints: (builder) => ({
       getCompanies: builder.query<PaginatedResponse<Company>, void>({
-        query: () => `/companies?page=1&limit=999999999999999`,
+        query: () => `/companies?page=1&limit=9999999999`,
         providesTags: (result, error, arg) =>
           result
             ? // successful query

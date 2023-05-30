@@ -5,6 +5,7 @@ import { useGetVehicleTypeQuery } from "@/redux/services/vehicleType.service";
 import { VehicleSchema, VehiclesFormData } from "@/types/vehicles.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  Autocomplete,
   Box,
   Button,
   Dialog,
@@ -104,24 +105,20 @@ const UpdateVehicleModal = ({
             <Controller
               name="makeId"
               control={control}
-              render={({ field }) => (
-                <FormControl fullWidth>
-                  <InputLabel id="make">Выбери прооизводителя</InputLabel>
-                  <Select
-                    {...field}
-                    label="Выбери прооизводителя"
-                    labelId="make"
-                  >
-                    {makes?.data?.map((item) => (
-                      <MenuItem
-                        key={`make-${item.id}`}
-                        value={item.id.toString()}
-                      >
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+              render={({ field, formState }) => (
+                <Autocomplete
+                  value={makes?.data.find(
+                    (item) => item.id.toString() === field.value
+                  )}
+                  onChange={(event, data) =>
+                    field.onChange(data?.id.toString())
+                  }
+                  getOptionLabel={(option) => option.name}
+                  options={makes?.data ?? []}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Выбери прооизводителя" />
+                  )}
+                />
               )}
             />
             <Controller

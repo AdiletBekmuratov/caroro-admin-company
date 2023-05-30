@@ -9,7 +9,7 @@ export const vehiclesApi = baseApi
   .injectEndpoints({
     endpoints: (builder) => ({
       getVehicles: builder.query<PaginatedResponse<Vehicle>, void>({
-        query: () => `/vehicles?page=1&limit=999999999999999`,
+        query: () => `/vehicles?page=1&limit=9999999999`,
         providesTags: (result, error, arg) =>
           result
             ? // successful query

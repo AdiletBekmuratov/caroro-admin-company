@@ -1,30 +1,9 @@
-import {
-  useCreateVehicleMutation,
-  useDeleteVehicleMutation,
-  useGetVehiclesQuery,
-  useUpdateVehicleMutation,
-} from "@/redux/services/vehicles.service";
-import {
-  Company,
-  Engine,
-  GearBox,
-  Make,
-  VehicleType,
-} from "@/types/entity.types";
-import { VehiclesFormData } from "@/types/vehicles.types";
-import { Delete, Edit } from "@mui/icons-material";
-import { Box, Button, IconButton, Tooltip } from "@mui/material";
-import MaterialReactTable, {
-  MRT_Cell,
-  MRT_ColumnDef,
-  MRT_Row,
-} from "material-react-table";
-import { useCallback, useMemo, useState } from "react";
-import CreateVehicleModal from "./Vehicles/CreateVehicleModal";
-import UpdateVehicleModal from "./Vehicles/UpdateVehicleModal";
-import { IUser } from "@/types";
-import { Vehicle } from "./Vehicles";
 import { useGetOrdersQuery } from "@/redux/services/orders.service";
+import { IUser } from "@/types";
+import { Company } from "@/types/entity.types";
+import MaterialReactTable, { MRT_ColumnDef } from "material-react-table";
+import { useMemo } from "react";
+import { Vehicle } from "./Vehicles";
 
 export type OrderStatus = "pending" | "inprogress" | "completed" | "cancelled";
 
@@ -44,6 +23,7 @@ export type Order = {
 
 const Orders = () => {
   const { data = [] } = useGetOrdersQuery();
+  console.log(data);
 
   const columns = useMemo<MRT_ColumnDef<Order>[]>(
     () => [

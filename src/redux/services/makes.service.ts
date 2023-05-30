@@ -8,7 +8,7 @@ export const makesApi = baseApi
   .injectEndpoints({
     endpoints: (builder) => ({
       getCarBrands: builder.query<PaginatedResponse<Make>, void>({
-        query: () => `/makes?page=1&limit=999999999999999`,
+        query: () => `/makes?page=1&limit=9999999999`,
         providesTags: (result, error, arg) =>
           result
             ? [
